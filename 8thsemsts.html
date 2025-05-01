@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive MCQ Quiz (2-merged.pdf)</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    .topic { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 24px; margin-bottom: 36px; }
+    .topic-title { font-size: 1.4em; margin-bottom: 18px; color: #2b3a67; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
+    .question-block { margin-bottom: 24px; }
+    .question-text { margin-bottom: 8px; font-weight: 500; color: #222; }
+    .options { list-style: none; padding-left: 0; }
+    .option { margin-bottom: 7px; }
+    .option label {
+      display: inline-block; padding: 8px 16px; border-radius: 5px; cursor: pointer; transition: background 0.2s;
+      border: 1px solid #ccc; background: #f4f4f4; width: 100%;
+    }
+    .option input[type="radio"] { display: none; }
+    .option.correct label { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+    .option.incorrect label { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+  </style>
+</head>
+<body>
+  <h1>Interactive MCQ Quiz (2-merged.pdf)</h1>
+  <div id="quiz-container"></div>
+  <script>
+    // All MCQs organized by topic and question
+    const quizData = [
+      {
+        topic: "Singly & Doubly Linked List and Loop Detection",
+        questions: [
+          {
+            q: "1. What is a node in a singly linked list?",
+            options: [
+              "A) The first element",
+              "B) The last element",
+              "C) An individual element",
+              "D) A pointer to the middle element"
+            ],
+            answer: 2
+          },
+          {
+            q: "2. In a doubly linked list, each node contains how many pointers?",
+            options: [
+              "A) One",
+              "B) Two",
+              "C) Three",
+              "D) Four"
+            ],
+            answer: 1
+          },
+          {
+            q: "3. In which type of linked list is loop detection not applicable?",
+            options: [
+              "A) Singly linked list",
+              "B) Doubly linked list",
+              "C) Circular linked list",
+              "D) Dynamic linked list"
+            ],
+            answer: 2
+          },
+          {
+            q: "4. Which of the following data structures is NOT typically used to implement a linked list?",
+            options: [
+              "A) Array",
+              "B) Pointer",
+              "C) Node",
+              "D) Reference"
+            ],
+            answer: 0
+          },
+          {
+            q: "5. In a circular linked list, what is the difference between the last node's \"next\" pointer and the first node's \"next\" pointer?",
+            options: [
+              "A) There is no difference",
+              "B) The last node points to the first node",
+              "C) The first node points to the last node",
+              "D) The last node points to null"
+            ],
+            answer: 1
+          },
+          {
+            q: "6. Which of the following is a drawback of the Floyd's algorithm?",
+            options: [
+              "A) It may not always detect loops",
+              "B) It has a high space complexity",
+              "C) It requires sorting the linked list",
+              "D) It cannot handle singly linked lists"
+            ],
+            answer: 0
+          },
+          {
+            q: "7. What is a common method for detecting loops in a singly linked list?",
+            options: [
+              "A) Using a counter variable",
+              "B) Using a hash table",
+              "C) Using two pointers (slow and fast)",
+              "D) Traversing the list backward"
+            ],
+            answer: 2
+          },
+          {
+            q: "8. What is the time complexity of the Floyd's algorithm for loop detection in a linked list?",
+            options: [
+              "A) O(1)",
+              "B) O(n)",
+              "C) O(log n)",
+              "D) O(n^2)"
+            ],
+            answer: 1
+          },
+          {
+            q: "9. What is the space complexity of the Floyd's algorithm for loop detection in a linked list?",
+            options: [
+              "A) O(1)",
+              "B) O(n)",
+              "C) O(log n)",
+              "D) O(n^2)"
+            ],
+            answer: 0
+          },
+          {
+            q: "10. Which of the following statements is true when comparing hashing and Floyd's Tortoise algorithm for loop detection in linked lists or sequences?",
+            options: [
+              "A) Hashing guarantees constant time complexity for loop detection.",
+              "B) Floyd's Tortoise algorithm guarantees linear time complexity for loop detection.",
+              "C) Hashing requires additional memory to store hash values.",
+              "D) Floyd's Tortoise algorithm is not suitable for loop detection in singly linked lists."
+            ],
+            answer: 2
+          }
+        ]
+      },
+      {
+        topic: "Sort the Bitonic DLL",
+        questions: [
+          {
+            q: "1. Which of the following data structures is suitable for implementing a bitonic doubly linked list (DLL)?",
+            options: [
+              "A) ArrayList",
+              "B) LinkedList",
+              "C) Stack",
+              "D) PriorityQueue"
+            ],
+            answer: 1
+          },
+          {
+            q: "2. What is a bitonic sequence?",
+            options: [
+              "A) A sequence of numbers with random order",
+              "B) A sequence of numbers that alternates between increasing and decreasing order",
+              "C) A sequence of numbers sorted in descending order",
+              "D) A sequence of numbers sorted in ascending order"
+            ],
+            answer: 1
+          },
+          {
+            q: "3. Which algorithm is commonly used to sort a bitonic sequence?",
+            options: [
+              "A) Quick Sort",
+              "B) Merge Sort",
+              "C) Bitonic Sort",
+              "D) Bubble Sort"
+            ],
+            answer: 2
+          },
+          {
+            q: "4. In the context of sorting a bitonic DLL, what does \"bitonic merging\" refer to?",
+            options: [
+              "A) Merging two sorted lists into a single sorted list",
+              "B) Merging two bitonic sequences into a single bitonic sequence",
+              "C) Combining two sorted arrays",
+              "D) Rearranging elements in a bitonic sequence"
+            ],
+            answer: 1
+          },
+          {
+            q: "5. Which data structure can be used to efficiently implement bitonic merging for a bitonic DLL?",
+            options: [
+              "A) ArrayList",
+              "B) Stack",
+              "C) PriorityQueue",
+              "D) Deque"
+            ],
+            answer: 3
+          },
+          {
+            q: "6. Which of the following is NOT a step involved in sorting a bitonic DLL?",
+            options: [
+              "A) Identifying the bitonic point",
+              "B) Splitting the list into two sublists",
+              "C) Merging the two sublists",
+              "D) Reversing the sublist before the bitonic point"
+            ],
+            answer: 3
+          },
+          {
+            q: "7. How many sorting passes are required to completely sort a bitonic DLL?",
+            options: [
+              "A) One",
+              "B) Two",
+              "C) Three",
+              "D) It depends on the size of the list"
+            ],
+            answer: 1
+          },
+          {
+            q: "8. Which sorting algorithm is commonly used to sort the two sublists in a bitonic DLL?",
+            options: [
+              "A) Bubble Sort",
+              "B) Quick Sort",
+              "C) Merge Sort",
+              "D) Insertion Sort"
+            ],
+            answer: 2
+          },
+          {
+            q: "9. What is the Space complexity of sorting a bitonic DLL with n elements?",
+            options: [
+              "A) O(1)",
+              "B) O(log n)",
+              "C) O(n log n)",
+              "D) O(n^2)"
+            ],
+            answer: 0
+          },
+          {
+            q: "10. In a bitonic DLL, where does the bitonic point occur?",
+            options: [
+              "A) At the beginning of the list",
+              "B) At the end of the list",
+              "C) It can occur at any position",
+              "D) There is no bitonic point in a DLL"
+            ],
+            answer: 2
+          }
+        ]
+      },
+      {
+        topic: "Segregate Even & Odd Nodes in a Linked List",
+        questions: [
+          {
+            q: "1. To segregate even and odd nodes, you need to iterate through the linked list once.",
+            options: [
+              "a) True",
+              "b) False"
+            ],
+            answer: 0
+          },
+          {
+            q: "2. Which of the following operations is NOT typically required when segregating even and odd nodes in a linked list?",
+            options: [
+              "a) Insertion",
+              "b) Deletion",
+              "c) Swapping",
+              "d) Sorting"
+            ],
+            answer: 3
+          },
+          {
+            q: "3. How can you identify whether a number is even or odd?",
+            options: [
+              "a) Check if it is divisible by 2",
+              "b) Check if it is a prime number",
+              "c) Check if it is a multiple of 5",
+              "d) Check if it is greater than 10"
+            ],
+            answer: 0
+          },
+          {
+            q: "4. In an in-place solution for segregating even and odd nodes, what is the primary goal?",
+            options: [
+              "a) To minimize time complexity",
+              "b) To minimize space complexity",
+              "c) To create a new linked list",
+              "d) To maximize the number of operations"
+            ],
+            answer: 1
+          },
+          {
+            q: "5. Which of the following is NOT an in-place method for segregating even and odd nodes?",
+            options: [
+              "a) Creating two separate linked lists",
+              "b) Rearranging nodes within the existing list",
+              "c) Using additional memory for a stack",
+              "d) Swapping nodes in place"
+            ],
+            answer: 0
+          },
+          {
+            q: "6. In the context of segregating even and odd nodes, what is the significance of the \"previous\" pointer?",
+            options: [
+              "a) It points to the previous node.",
+              "b) It stores the address of the head node.",
+              "c) It is not relevant to this operation.",
+              "d) It is used for deleting nodes."
+            ],
+            answer: 0
+          },
+          {
+            q: "7. In an in-place solution for segregating even and odd nodes, what is the final step after rearranging the nodes?",
+            options: [
+              "a) Reversing the entire linked list",
+              "b) Swapping the even and odd parts",
+              "c) Updating the \"tail\" pointer of the even part",
+              "d) Merging the even and odd parts"
+            ],
+            answer: 2
+          },
+          {
+            q: "8. Which pointer do you need to update when rearranging nodes in an in-place solution for segregating even and odd nodes?",
+            options: [
+              "a) Only the next pointer",
+              "b) Only the previous pointer",
+              "c) Both next and previous pointers",
+              "d) Neither next nor previous pointers"
+            ],
+            answer: 2
+          },
+          {
+            q: "9. What data structure is commonly used to represent a singly linked list?",
+            options: [
+              "a) Array",
+              "b) Stack",
+              "c) Queue",
+              "d) Linked List"
+            ],
+            answer: 3
+          },
+          {
+            q: "10. In the in-place approach, what is the role of the \"evenTail\" pointer?",
+            options: [
+              "a) To track the last even node in the list",
+              "b) To count the number of even nodes",
+              "c) To reverse the order of even nodes",
+              "d) To switch the positions of even and odd nodes"
+            ],
+            answer: 0
+          }
+        ]
+      },
+      {
+        topic: "Merge Sort on Doubly Linked List",
+        questions: [
+          {
+            q: "1. What is Merge Sort?",
+            options: [
+              "a) A sorting algorithm that operates only on arrays",
+              "b) A sorting algorithm that operates only on linked lists",
+              "c) A divide-and-conquer sorting algorithm",
+              "d) A sorting algorithm that uses a stack data structure"
+            ],
+            answer: 2
+          },
+          {
+            q: "2. Why is Merge Sort preferred for sorting DLLs?",
+            options: [
+              "a) It has a lower time complexity compared to other sorting algorithms",
+              "b) It doesn't require additional memory for sorting DLLs",
+              "c) It is easy to implement for DLLs",
+              "d) It efficiently utilizes the DLL's bidirectional traversal capability"
+            ],
+            answer: 3
+          },
+          {
+            q: "3. What is the time complexity of Merge Sort for DLLs with 'n' elements?",
+            options: [
+              "a) O(n)",
+              "b) O(n * log(n))",
+              "c) O(n^2)",
+              "d) O(log(n))"
+            ],
+            answer: 1
+          },
+          {
+            q: "4. In Merge Sort for DLLs, what is the base case?",
+            options: [
+              "a) When the DLL has a single element",
+              "b) When the DLL has two elements",
+              "c) When the DLL is empty",
+              "d) When the DLL has three elements"
+            ],
+            answer: 0
+          },
+          {
+            q: "5. How is a DLL divided during the Merge Sort process?",
+            options: [
+              "a) By selecting a random pivot element",
+              "b) By splitting it into two equal halves",
+              "c) By finding the middle element",
+              "d) By dividing it into an even and an odd sublist"
+            ],
+            answer: 2
+          },
+          {
+            q: "6. What is the purpose of the \"Merge\" function in Merge Sort for DLLs?",
+            options: [
+              "a) To split the DLL into two sublists",
+              "b) To reverse the order of elements in the DLL",
+              "c) To combine and sort two sorted sublists",
+              "d) To find the middle element of the DLL"
+            ],
+            answer: 2
+          },
+          {
+            q: "7. In Merge Sort for DLLs, which data structure is used to perform the merging of sublists efficiently?",
+            options: [
+              "a) Array",
+              "b) Stack",
+              "c) Queue",
+              "d) Recursion"
+            ],
+            answer: 3
+          },
+          {
+            q: "8. In Merge Sort for DLLs, how do you merge two sorted DLLs?",
+            options: [
+              "a) By using a temporary linked list",
+              "b) By using a stack data structure",
+              "c) By comparing and rearranging nodes from both DLLs",
+              "d) By reversing one of the DLLs"
+            ],
+            answer: 2
+          },
+          {
+            q: "9. In Merge Sort, how is the DLL divided during the recursive process?",
+            options: [
+              "a) Into three equal parts",
+              "b) Into two equal parts",
+              "c) Into four equal parts",
+              "d) It is not divided"
+            ],
+            answer: 1
+          },
+          {
+            q: "10. Which of the following is true about the stability of Merge Sort for DLLs?",
+            options: [
+              "a) It is always stable",
+              "b) It is never stable",
+              "c) It depends on the implementation",
+              "d) It is stable only for small DLLs"
+            ],
+            answer: 0
+          }
+        ]
+      },
+      {
+        topic: "Stack and Get Minimum Stack",
+        questions: [
+          {
+            q: "1. What is a stack data structure?",
+            options: [
+              "A) A linear data structure with a FIFO (First-In-First-Out) order.",
+              "B) A linear data structure with a LIFO (Last-In-First-Out) order.",
+              "C) A hierarchical data structure.",
+              "D) A non-linear data structure."
+            ],
+            answer: 1
+          },
+          {
+            q: "2. Which operation involves inserting an item into a stack?",
+            options: [
+              "A) Push",
+              "B) Pop",
+              "C) Peek",
+              "D) Swap"
+            ],
+            answer: 0
+          },
+          {
+            q: "3. Which operation involves deleting an item from the stack?",
+            options: [
+              "A) Push",
+              "B) Pop",
+              "C) Peek",
+              "D) Swap"
+            ],
+            answer: 1
+          },
+          {
+            q: "4. Which operation involves displaying the contents of the stack without removing it?",
+            options: [
+              "A) Push",
+              "B) Pop",
+              "C) Peek",
+              "D) Swap"
+            ],
+            answer: 2
+          },
+          {
+            q: "5. Which operation allows you to retrieve the minimum element from a stack efficiently?",
+            options: [
+              "A) getMin()",
+              "B) findMinimum()",
+              "C) retrieveMinimum()",
+              "D) minimumElement()"
+            ],
+            answer: 0
+          },
+          {
+            q: "6. Which of the following is NOT a valid approach to implement the \"get minimum\" operation for a stack?",
+            options: [
+              "A) Using an additional stack to track minimums.",
+              "B) Storing the minimum element in a variable.",
+              "C) Scanning the entire stack to find the minimum when needed.",
+              "D) Using a priority queue."
+            ],
+            answer: 3
+          },
+          {
+            q: "7. What is the advantage of using a \"get minimum\" stack over scanning the entire stack to find the minimum when needed?",
+            options: [
+              "A) \"Get minimum\" stack has a smaller memory footprint.",
+              "B) \"Get minimum\" stack has a faster time complexity.",
+              "C) \"Get minimum\" stack allows elements to be in any order.",
+              "D) \"Get minimum\" stack has fewer operations."
+            ],
+            answer: 1
+          },
+          {
+            q: "8. In a \"get minimum\" stack, what happens when you pop the minimum element from the stack?",
+            options: [
+              "A) The minimum element is lost, and you cannot retrieve it.",
+              "B) The minimum element is moved to the top of the stack.",
+              "C) The minimum element is pushed onto the auxiliary stack.",
+              "D) The stack becomes empty."
+            ],
+            answer: 2
+          },
+          {
+            q: "9. What is the time complexity of the \"get minimum\" operation for a stack implemented with an additional stack to track minimums?",
+            options: [
+              "A) O(1)",
+              "B) O(log N)",
+              "C) O(N)",
+              "D) O(N^2)"
+            ],
+            answer: 0
+          },
+          {
+            q: "10. What is the space complexity of a stack without any additional data structures?",
+            options: [
+              "A) O(1)",
+              "B) O(N)",
+              "C) O(log N)",
+              "D) O(N^2)"
+            ],
+            answer: 0
+          }
+        ]
+      },
+      {
+        topic: "Tower of Hanoi (Iterative)",
+        questions: [
+          {
+            q: "1. In the Tower of Hanoi problem, what is the objective?",
+            options: [
+              "A. To move all disks from one rod to another rod.",
+              "B. To sort the disks in ascending order.",
+              "C. To find the largest disk.",
+              "D. To find the total number of moves required."
+            ],
+            answer: 0
+          },
+          {
+            q: "2. How many rods are used in the classic Tower of Hanoi problem?",
+            options: [
+              "A. 1",
+              "B. 2",
+              "C. 3",
+              "D. 4"
+            ],
+            answer: 2
+          },
+          {
+            q: "3. In the iterative solution to the Tower of Hanoi, how is the problem divided into subproblems?",
+            options: [
+              "A. Divide the disks into two equal parts.",
+              "B. Divide the disks into three equal parts.",
+              "C. Divide the disks into smaller and smaller subproblems.",
+              "D. Divide the disks into four equal parts."
+            ],
+            answer: 2
+          },
+          {
+            q: "4. What is the minimum number of moves required to solve the Tower of Hanoi problem with 4 disks?",
+            options: [
+              "A. 4",
+              "B. 7",
+              "C. 15",
+              "D. 31"
+            ],
+            answer: 2
+          },
+          {
+            q: "5. Which data structure is commonly used to implement the iterative solution to the Tower of Hanoi problem?",
+            options: [
+              "A. Stack",
+              "B. Queue",
+              "C. Array",
+              "D. LinkedList"
+            ],
+            answer: 0
+          },
+          {
+            q: "6. In the iterative Tower of Hanoi solution, how are the disks moved between the rods?",
+            options: [
+              "A. Using recursion",
+              "B. Using a loop",
+              "C. Using dynamic programming",
+              "D. Using a binary tree"
+            ],
+            answer: 1
+          },
+          {
+            q: "7. What is the time complexity of the iterative solution to the Tower of Hanoi problem with 'n' disks?",
+            options: [
+              "A. O(n)",
+              "B. O(2^n)",
+              "C. O(log n)",
+              "D. O(n^2)"
+            ],
+            answer: 1
+          },
+          {
+            q: "8. In the iterative Tower of Hanoi solution, what is the purpose of using a stack data structure?",
+            options: [
+              "A. To store the rods.",
+              "B. To keep track of the number of disks.",
+              "C. To maintain the order of disk movements.",
+              "D. To simulate the recursive calls in an iterative manner."
+            ],
+            answer: 3
+          },
+          {
+            q: "9. How does the iterative Tower of Hanoi solution ensure that the correct disk movement order is maintained?",
+            options: [
+              "A. By using a queue data structure.",
+              "B. By using a depth-first search algorithm.",
+              "C. By using a loop and a stack data structure.",
+              "D. By using a breadth-first search algorithm."
+            ],
+            answer: 2
+          },
+          {
+            q: "10. What is the space complexity of the iterative Tower of Hanoi solution?",
+            options: [
+              "A. O(1)",
+              "B. O(n)",
+              "C. O(log n)",
+              "D. O(n^2)"
+            ],
+            answer: 1
+          }
+        ]
+      },
+      {
+        topic: "Celebrity Problem",
+        questions: [
+          {
+            q: "1. What is the Celebrity Problem in computer science?",
+            options: [
+              "A) A problem related to identifying famous people in a social network.",
+              "B) A problem related to finding a person who is widely recognized.",
+              "C) A problem of identifying a person who is known by everyone but knows no one.",
+              "D) A problem of identifying a popular movie star."
+            ],
+            answer: 2
+          },
+          {
+            q: "2. In the Celebrity Problem, what does it mean for someone to be a \"celebrity\"?",
+            options: [
+              "A) They have a large social media following.",
+              "B) They are famous in their field.",
+              "C) They are known by everyone but know no one.",
+              "D) They are a popular public figure."
+            ],
+            answer: 2
+          },
+          {
+            q: "3. Which data structure is commonly used to solve the Celebrity Problem efficiently?",
+            options: [
+              "A) Stack",
+              "B) Queue",
+              "C) Graph",
+              "D) Array"
+            ],
+            answer: 0
+          },
+          {
+            q: "4. In the Celebrity Problem, how many people need to vouch for someone to be considered a celebrity?",
+            options: [
+              "A) At least one person.",
+              "B) At least two people.",
+              "C) At least half of the total people.",
+              "D) Everyone in the group."
+            ],
+            answer: 3
+          },
+          {
+            q: "5. In the Celebrity Problem, what is the primary goal of the algorithm?",
+            options: [
+              "A) To identify the most famous person.",
+              "B) To minimize the number of comparisons.",
+              "C) To find a person with the largest social network following.",
+              "D) To find a person known by everyone."
+            ],
+            answer: 3
+          },
+          {
+            q: "6. How is the Celebrity Problem typically represented?",
+            options: [
+              "A) Using a circular linked list.",
+              "B) With a binary search tree.",
+              "C) Using a square matrix.",
+              "D) Through a hash table."
+            ],
+            answer: 2
+          },
+          {
+            q: "7. Which factor primarily influences the time complexity of the Celebrity Problem algorithm?",
+            options: [
+              "A) The number of iterations.",
+              "B) The number of comparisons.",
+              "C) The number of recursive calls.",
+              "D) The number of celebrities."
+            ],
+            answer: 1
+          },
+          {
+            q: "8. How does the time complexity of the optimized Celebrity Problem algorithm scale with an increase in the number of people in the group?",
+            options: [
+              "A) It remains constant.",
+              "B) It decreases.",
+              "C) It increases linearly.",
+              "D) It increases exponentially."
+            ],
+            answer: 2
+          },
+          {
+            q: "9. What is the time complexity of the optimized algorithm for solving the Celebrity Problem?",
+            options: [
+              "A) O(1)",
+              "B) O(log N)",
+              "C) O(N)",
+              "D) O(N^2)"
+            ],
+            answer: 2
+          },
+          {
+            q: "10. What is the space complexity of the optimized algorithm for solving the Celebrity Problem?",
+            options: [
+              "A) O(1)",
+              "B) O(N)",
+              "C) O(log N)",
+              "D) O(N^2)"
+            ],
+            answer: 0
+          }
+        ]
+      },
+      {
+        topic: "Priority Queue Using Doubly Linked List",
+        questions: [
+          {
+            q: "1. What is a Priority Queue?",
+            options: [
+              "A. A queue with fixedsize capacity",
+              "B. A queue with variablesize capacity",
+              "C. A queue that follows Last In First Out (LIFO) order",
+              "D. A queue where each element has an associated priority"
+            ],
+            answer: 3
+          },
+          {
+            q: "2. Which data structure is suitable for implementing a Priority Queue using a DLL?",
+            options: [
+              "A. Stack",
+              "B. Queue",
+              "C. Linked List",
+              "D. Binary Heap"
+            ],
+            answer: 2
+          },
+          {
+            q: "3. In a Priority Queue implemented with a DLL, which operation takes O(1) time complexity?",
+            options: [
+              "A. Insertion",
+              "B. Deletion",
+              "C. Searching",
+              "D. Traversal"
+            ],
+            answer: 0
+          },
+          {
+            q: "4. What is the key feature of a Priority Queue that differentiates it from a regular queue?",
+            options: [
+              "A. FIFO (First-In-First-Out) behavior",
+              "B. LIFO (Last-In-First-Out) behavior",
+              "C. Elements are ordered by priority",
+              "D. No ordering of elements"
+            ],
+            answer: 2
+          },
+          {
+            q: "5. How are elements stored in a Priority Queue based on a DLL?",
+            options: [
+              "A. In a random order",
+              "B. In ascending order",
+              "C. In descending order",
+              "D. In order of insertion"
+            ],
+            answer: 1
+          },
+          {
+            q: "6. Which operation is used to remove and return the highest-priority element from a Priority Queue implemented with a DLL?",
+            options: [
+              "A. pop()",
+              "B. peek()",
+              "C. poll()",
+              "D. push()"
+            ],
+            answer: 0
+          },
+          {
+            q: "7. How is the highest-priority element determined in a Priority Queue based on a DLL?",
+            options: [
+              "A. By its position in the DLL",
+              "B. By the value of its key",
+              "C. By its index in the DLL",
+              "D. By its order of insertion"
+            ],
+            answer: 1
+          },
+          {
+            q: "8. What is the time complexity of inserting an element into a Priority Queue implemented with a DLL, assuming the DLL is already sorted by priority?",
+            options: [
+              "A. O(1)",
+              "B. O(log n)",
+              "C. O(n)",
+              "D. O(n log n)"
+            ],
+            answer: 2
+          },
+          {
+            q: "9. What is the space complexity of a Priority Queue implemented with a DLL?",
+            options: [
+              "A. O(1)",
+              "B. O(n)",
+              "C. O(log n)",
+              "D. O(n log n)"
+            ],
+            answer: 1
+          },
+          {
+            q: "10. Which operation is used to add an element to a Priority Queue implemented with a DLL?",
+            options: [
+              "A. add()",
+              "B. push()",
+              "C. insert()",
+              "D. enqueue()"
+            ],
+            answer: 2
+          }
+        ]
+      },
+      {
+        topic: "Sort Without Extra Space",
+        questions: [
+          {
+            q: "1. Which sorting algorithm divides the array into a sorted and an unsorted region and repeatedly selects the minimum element from the unsorted region and moves it to the sorted region?",
+            options: [
+              "a) Insertion Sort",
+              "b) Quick Sort",
+              "c) Selection Sort",
+              "d) Heap Sort"
+            ],
+            answer: 2
+          },
+          {
+            q: "2. Which sorting algorithm uses a pivot element and partitions the array into two subarrays such that elements less than the pivot are on the left and elements greater than the pivot are on the right?",
+            options: [
+              "a) Merge Sort",
+              "b) Insertion Sort",
+              "c) Quick Sort",
+              "d) Radix Sort"
+            ],
+            answer: 2
+          },
+          {
+            q: "3. Which sorting algorithm works by repeatedly dividing the input array into two subarrays, sorting them, and then merging them?",
+            options: [
+              "a) Quick Sort",
+              "b) Insertion Sort",
+              "c) Merge Sort",
+              "d) Selection Sort"
+            ],
+            answer: 2
+          },
+          {
+            q: "4. In the context of \"sorting without extra space,\" which data structure is commonly used for in-place sorting algorithms?",
+            options: [
+              "a) Linked List",
+              "b) Hash Table",
+              "c) Binary Tree",
+              "d) Priority Queue"
+            ],
+            answer: 0
+          },
+          {
+            q: "5. In-place sorting means that:",
+            options: [
+              "a) Extra space is not used",
+              "b) Extra space is used",
+              "c) The algorithm is fast",
+              "d) The algorithm is stable"
+            ],
+            answer: 0
+          },
+          {
+            q: "6. Which sorting algorithm is often used to implement priority queues due to its heap data structure?",
+            options: [
+              "a) Merge Sort",
+              "b) Quick Sort",
+              "c) Radix Sort",
+              "d) Heap Sort"
+            ],
+            answer: 3
+          },
+          {
+            q: "7. Which sorting algorithm's performance is significantly affected by the choice of the pivot element?",
+            options: [
+              "a) Insertion Sort",
+              "b) Bubble Sort",
+              "c) Selection Sort",
+              "d) Quick Sort"
+            ],
+            answer: 3
+          },
+          {
+            q: "8. Which sorting algorithm does not perform well with duplicate values in the array and can be unstable?",
+            options: [
+              "a) Quick Sort",
+              "b) Insertion Sort",
+              "c) Selection Sort",
+              "d) Merge Sort"
+            ],
+            answer: 0
+          },
+          {
+            q: "9. Which sorting algorithm is not a comparison-based sorting algorithm and is suitable for integers or fixed-length strings?",
+            options: [
+              "a) Insertion Sort",
+              "b) Heap Sort",
+              "c) Radix Sort",
+              "d) Quick Sort"
+            ],
+            answer: 2
+          },
+          {
+            q: "10. What does it mean to \"sort without extra space\" in the context of sorting algorithms?",
+            options: [
+              "a) Creating a new array to store the sorted elements",
+              "b) Rearranging elements in the original array to achieve a sorted order",
+              "c) Using additional memory to speed up the sorting process",
+              "d) Sorting elements in a separate data structure"
+            ],
+            answer: 1
+          }
+        ]
+      },
+      {
+        topic: "Max Sliding Window",
+        questions: [
+          {
+            q: "1. What is the Max Sliding Window problem about?",
+            options: [
+              "a) Finding the minimum element in a sliding window",
+              "b) Finding the maximum element in a sliding window",
+              "c) Counting the number of elements in a sliding window",
+              "d) Summing the elements in a sliding window"
+            ],
+            answer: 1
+          },
+          {
+            q: "2. In the Max Sliding Window problem, what is the \"window size\"?",
+            options: [
+              "a) The size of the entire array",
+              "b) The number of windows in the array",
+              "c) The number of elements in each window",
+              "d) The number of distinct elements in the array"
+            ],
+            answer: 2
+          },
+          {
+            q: "3. Which data structure is commonly used to efficiently solve the Max Sliding Window problem?",
+            options: [
+              "a) Linked List",
+              "b) Stack",
+              "c) Queue",
+              "d) Array"
+            ],
+            answer: 2
+          },
+          {
+            q: "4. What is the time complexity of the Naive Approach for solving the Max Sliding Window problem, where 'N' is the size of the array, and 'K' is the window size?",
+            options: [
+              "a) O(N)",
+              "b) O(N * K)",
+              "c) O(N * log(K))",
+              "d) O(N^2)"
+            ],
+            answer: 1
+          },
+          {
+            q: "5. Which approach is efficient for small windows or large arrays when solving the Max Sliding Window problem?",
+            options: [
+              "a) Naive Approach",
+              "b) Using Self-balancing Tree",
+              "c) Using Max-Heap",
+              "d) Using Deque"
+            ],
+            answer: 3
+          },
+          {
+            q: "6. When using a self-balancing tree for the Max Sliding Window problem, what is the primary benefit of this approach?",
+            options: [
+              "a) It has the best time complexity for all scenarios.",
+              "b) It requires the least amount of memory.",
+              "c) It is simple and easy to implement.",
+              "d) It can efficiently handle large windows in large arrays."
+            ],
+            answer: 3
+          },
+          {
+            q: "7. What is the time complexity of the approach that uses a Max-Heap for the Max Sliding Window problem?",
+            options: [
+              "a) O(N)",
+              "b) O(N * K)",
+              "c) O(N * log(K))",
+              "d) O(K * log(K))"
+            ],
+            answer: 2
+          },
+          {
+            q: "8. What is the space complexity of the approach that uses a Max-Heap for the Max Sliding Window problem?",
+            options: [
+              "a) O(N)",
+              "b) O(K)",
+              "c) O(N * log(K))",
+              "d) O(K * log(K))"
+            ],
+            answer: 1
+          },
+          {
+            q: "9. Which approach is the most efficient in terms of both time and space complexity for solving the Max Sliding Window problem, particularly when dealing with large windows?",
+            options: [
+              "a) Naive Approach",
+              "b) Using Self-balancing Tree",
+              "c) Using Max-Heap",
+              "d) Using Deque"
+            ],
+            answer: 3
+          },
+          {
+            q: "10. What does the term \"sliding window\" refer to in this problem?",
+            options: [
+              "a) A visual representation of the array",
+              "b) A graphical user interface for data visualization",
+              "c) A fixed-size subarray moving through the original array",
+              "d) A software window displaying the array's contents"
+            ],
+            answer: 2
+          }
+        ]
+      },
+      {
+        topic: "Stack Permutations",
+        questions: [
+          {
+            q: "1. What is a stack permutation?",
+            options: [
+              "a) A permutation of elements within a stack",
+              "b) A sequence of elements pushed onto a stack",
+              "c) A sequence of elements popped from a stack",
+              "d) A sequence of elements that can be obtained by rearranging a stack's elements"
+            ],
+            answer: 3
+          },
+          {
+            q: "2. In a valid stack permutation, which operation can be performed at any time without violating the permutation's order?",
+            options: [
+              "a) Push",
+              "b) Pop",
+              "c) Peek",
+              "d) Swap"
+            ],
+            answer: 0
+          },
+          {
+            q: "3. How many valid permutations can be generated from a stack with three distinct elements?",
+            options: [
+              "a) 1",
+              "b) 2",
+              "c) 3",
+              "d) 6"
+            ],
+            answer: 3
+          },
+          {
+            q: "4. In a valid stack permutation, when can you perform a pop operation?",
+            options: [
+              "a) At any time",
+              "b) Only when the top element of the stack matches the next element in the permutation",
+              "c) Only at the end of the permutation",
+              "d) Only when the stack is empty"
+            ],
+            answer: 1
+          },
+          {
+            q: "5. If you have a stack with n distinct elements, how many valid stack permutations can be generated?",
+            options: [
+              "a) n",
+              "b) n!",
+              "c) 2^n",
+              "d) (n-1)!"
+            ],
+            answer: 1
+          },
+          {
+            q: "6. Which operation is used to reverse a stack's elements, creating a valid stack permutation?",
+            options: [
+              "a) Push",
+              "b) Pop",
+              "c) Swap",
+              "d) Reverse"
+            ],
+            answer: 3
+          },
+          {
+            q: "7. What is the minimum number of elements needed in a stack to generate at least one valid permutation?",
+            options: [
+              "a) 0",
+              "b) 1",
+              "c) 2",
+              "d) 3"
+            ],
+            answer: 1
+          },
+          {
+            q: "8. In a valid stack permutation, what is the position of the maximum element from the original stack in the permutation?",
+            options: [
+              "a) First",
+              "b) Middle",
+              "c) Last",
+              "d) It can be anywhere"
+            ],
+            answer: 2
+          },
+          {
+            q: "9. Which of the following is a common application of stack permutations?",
+            options: [
+              "a) Sorting algorithms",
+              "b) Queue operations",
+              "c) Sudoku solving",
+              "d) Tower of Hanoi"
+            ],
+            answer: 0
+          },
+          {
+            q: "10. In a stack permutation, when is the stack completely empty?",
+            options: [
+              "a) Before pushing any element",
+              "b) After pushing all elements",
+              "c) After popping all elements",
+              "d) It depends on the permutation"
+            ],
+            answer: 2
+          }
+        ]
+      }
+    ];
+
+    // Helper function to escape HTML
+    function escapeHTML(str) {
+      return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Render the quiz
+    const quizContainer = document.getElementById('quiz-container');
+    quizData.forEach((section, topicIdx) => {
+      const topicDiv = document.createElement('div');
+      topicDiv.className = 'topic';
+
+      const topicTitle = document.createElement('div');
+      topicTitle.className = 'topic-title';
+      topicTitle.textContent = section.topic;
+      topicDiv.appendChild(topicTitle);
+
+      section.questions.forEach((qObj, qIdx) => {
+        const qBlock = document.createElement('div');
+        qBlock.className = 'question-block';
+
+        const qText = document.createElement('div');
+        qText.className = 'question-text';
+        qText.innerHTML = escapeHTML(qObj.q);
+        qBlock.appendChild(qText);
+
+        const optionsList = document.createElement('ul');
+        optionsList.className = 'options';
+
+        qObj.options.forEach((opt, optIdx) => {
+          const optLi = document.createElement('li');
+          optLi.className = 'option';
+
+          const optId = `topic${topicIdx}_q${qIdx}_opt${optIdx}`;
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `topic${topicIdx}_q${qIdx}`;
+          radio.id = optId;
+          radio.value = optIdx;
+
+          // Option click handler
+          radio.addEventListener('change', function() {
+            // Remove previous coloring
+            const allOpts = optionsList.querySelectorAll('.option');
+            allOpts.forEach(li => li.classList.remove('correct', 'incorrect'));
+
+            if (optIdx === qObj.answer) {
+              optLi.classList.add('correct');
+            } else {
+              optLi.classList.add('incorrect');
+              // Also mark the correct one
+              allOpts[qObj.answer].classList.add('correct');
+            }
+          });
+
+          const label = document.createElement('label');
+          label.setAttribute('for', optId);
+          label.innerHTML = escapeHTML(opt);
+
+          optLi.appendChild(radio);
+          optLi.appendChild(label);
+          optionsList.appendChild(optLi);
+        });
+
+        qBlock.appendChild(optionsList);
+        topicDiv.appendChild(qBlock);
+      });
+
+      quizContainer.appendChild(topicDiv);
+    });
+  </script>
+</body>
+</html>
